@@ -1,18 +1,35 @@
 import React, { useState } from 'react'
 const App = () => {
   const [userDetail,setuserDeatil] = useState([
-    {name:"sandip", mob_No:8102466216, isCompleted:false, gender:"male", city:"Delhi"},
+    // {name:"sandip", mob_No:8102466216, isCompleted:false, gender:"male", city:"Delhi"},
   ])
-  const [name,setname] = useState("")
-  const[number,setNumber] = useState("")
+
+  const renderuser = userDetail.map((profile,index)=>{
+    return(
+      <li key={index}>
+        <h4>Name : {profile.name}</h4>
+        <h4>mob_no : {profile.mob_No}</h4>
+        <h4>gender : {profile.gender}</h4>
+        <h4>city : {profile.city}</h4>
+        <h4>isCompleted : {profile.isCompleted ? "Yes" : "No"}</h4>
+      </li>
+    )
+  })
+  const [name,setname] = useState("");
+  const [number,setNumber] = useState("");
   const [Completed, setCompleted] = useState(false);
   const [gender, setgender] = useState("male");
   const [city, setcity] = useState("delhi");
   
-  const submitHandler = () => {
+  const submitHandler = (e) => {
     e.preventDefault();
+    console.log("Form submit");
+    const newuser = {name:name, mob_No:number, isCompleted:Completed, gender:gender, city:city}
+    setuserDeatil([...userDetail, newuser])
+    console.log(userDetail);
   }
-
+  
+  
   return (
     <div>
       <h3>Register user</h3>
@@ -64,7 +81,12 @@ const App = () => {
         checked={Completed}
         onChange={(e) =>setCompleted(e.target.checked)}
         type='checkbox'/>Completed 
+        <br/><br/>
+        <button>submit</button>
       </form>
+
+      <h1>User Detail</h1>
+      {renderuser}
     </div>
   )
 }
